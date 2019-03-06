@@ -46,10 +46,20 @@ class SLTInstall{
 	}
 
 	public function controller(){
-		if(isset($_POST['conf'])){
+		global $argv;
+		if(isset($argv[0])){
+			$_POST['conf'] = true;
+			$_POST['project_name'] = $argv[1] ? $argv[1] : 'app';
+			$_POST['host'] = $argv[3] ? $argv[3] : 'localhost';
+			$_POST['user'] = $argv[4] ? $argv[4] : 'root';
+			$_POST['db_name'] = $argv[2] ? $argv[2] : 'db_name';
+			$_POST['db_pass'] = $argv[5] ? $argv[5] : '';
+		}
+
+		if(isset($_POST['conf']) or isset($argv[0])){
 			// install start
 			$this -> install_start();
-		}else{
+		}elseif(!isset($_POST['conf'])){
 			// show config page
 			$this -> configuration_page();
 		}
